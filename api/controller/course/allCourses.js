@@ -1,10 +1,19 @@
 const Course = require('../../models/course');
 import mongoose from 'mongoose'
+
 let allCourses = async (req, res, next) => {
-    let courses = await Course.find();
+    const perPage = 2;
+    const page = req.query.page || 1;
+    const allCourses = await Course.count();
+    let courses = await Course.find()
+        .skip((perPage * page) - perPage)
+        .limit(perPage);
     if (courses.length > 0) {
         return res.status(200).json({
+            allCourses: allCourses,
             count: courses.length,
+            pages: Math.ceil(allCourses / perPage),
+            currentPage: page,
             data: courses.map(elem => {
                 return {
                     _id: elem._id,

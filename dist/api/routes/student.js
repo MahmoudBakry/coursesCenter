@@ -28,6 +28,10 @@ var _removeStudent = require('../controller/student/removeStudent');
 
 var _removeStudent2 = _interopRequireDefault(_removeStudent);
 
+var _allStudents = require('../controller/student/allStudents');
+
+var _allStudents2 = _interopRequireDefault(_allStudents);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
@@ -36,6 +40,8 @@ var router = _express2.default.Router();
 router.post('/', _createStudent2.default);
 //retrive one student 
 router.get('/:_id', _studentDetails2.default);
+//retrive all student 
+router.get('/', _allStudents2.default);
 //update student info 
 router.put('/:_id', _updateStudent2.default);
 //remove one student 

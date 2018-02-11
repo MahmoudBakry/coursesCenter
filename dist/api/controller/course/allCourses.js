@@ -12,11 +12,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Course = require('../../models/course');
 
+
 var allCourses = async function allCourses(req, res, next) {
-    var courses = await Course.find();
+    var perPage = 2;
+    var page = req.query.page || 1;
+    var allCourses = await Course.count();
+    var courses = await Course.find().skip(perPage * page - perPage).limit(perPage);
     if (courses.length > 0) {
         return res.status(200).json({
+            allCourses: allCourses,
             count: courses.length,
+            pages: Math.ceil(allCourses / perPage),
+            currentPage: page,
             data: courses.map(function (elem) {
                 return {
                     _id: elem._id,
